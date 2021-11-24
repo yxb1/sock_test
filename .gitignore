@@ -11,3 +11,4 @@ output
 log
 build
 *.core*
+sock_test

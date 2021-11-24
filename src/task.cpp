@@ -20,10 +20,23 @@ void ThreadProcessor::task_start() {
 
 void ThreadProcessor::task_run(void *args) {
     pTask.pThis = (ThreadProcessor *)args;
+    if(!strcmp("s", pTask.pThis->host_info.tx_rx_info.unit.c_str())) {
+        pTask.pThis->timer_type = 1;
+    }
+    else if(!strcmp("ms", pTask.pThis->host_info.tx_rx_info.unit.c_str())) {
+        pTask.pThis->timer_type = 2;
+    }
+    else if(!strcmp("us", pTask.pThis->host_info.tx_rx_info.unit.c_str())) {
+        pTask.pThis->timer_type = 3;
+    }
+    else {
+        std::cout << "Only s/ms/us time unit is supported" << std::endl;
+        exit(-1);
+    }
+
     std::shared_ptr<UdpSock> sock = make_shared<UdpSock>(pTask.pThis->host_info);
     sock->SocketInit();
     uint32_t type = 0;
-    uint32_t tick = 0;
 
     if(!strcmp("just_send", pTask.pThis->host_info.tx_rx_info.property.type.c_str())) {
         type = 1;
@@ -42,30 +55,21 @@ void ThreadProcessor::task_run(void *args) {
         std::cout << "Thread type is " << type << std::endl;
     }
 
-    if(strcmp("ms", pTask.pThis->host_info.tx_rx_info.unit.c_str())) {
-        std::cout << "Only millisecond timing is supported" << std::endl;
-        exit(-1);
-    }
-    else
-    {
-        tick = pTask.pThis->host_info.tx_rx_info.interval*1000;
-    }
-
     static char rbf[MAX_BUFF_LEN] = {0};
     uint32_t rlen = 0;
     while(true) {
         switch(type) {
             case 1:
                 sock->SocketSend(NULL, 0);
-                usleep(tick);
+                pTask.pThis->task_sleep();
                 break;
             case 2:
                 sock->SocketRecv(NULL, 0);
-                usleep(tick);
+                pTask.pThis->task_sleep();
                 break;
             case 3:
                 sock->SocketSend(NULL, 0);
-                usleep(tick);
+                pTask.pThis->task_sleep();
                 sock->SocketRecv(NULL, 0);
                 break;
             case 4:
@@ -83,5 +87,21 @@ void ThreadProcessor::task_run(void *args) {
             default:
                 std::cout << "Unrecognized configuration!!!" << std::endl;
         }
+    }
+}
+
+void ThreadProcessor::task_sleep() {
+    switch(timer_type) {
+        case 1:
+            sleep(host_info.tx_rx_info.interval);
+            break;
+        case 2:
+            usleep(host_info.tx_rx_info.interval*1000);
+            break;
+        case 3:
+            usleep(host_info.tx_rx_info.interval);
+            break;
+        default:
+            std::cout << "Timer type error." << std::endl;
     }
 }

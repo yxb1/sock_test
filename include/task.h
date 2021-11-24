@@ -15,10 +15,12 @@ public:
     ~ThreadProcessor();
     void task_start();
     static void task_run(void *args);
+    void task_sleep();
 
 private:
     TaskInfo host_info;
     std::thread task;
+    uint8_t timer_type;
 };
 
 #endif

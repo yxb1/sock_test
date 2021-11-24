@@ -33,7 +33,6 @@ int main(int argc, const char *argv[]) {
     }
     std::shared_ptr<ParseXML> ptr = make_shared<ParseXML>();
     uint8_t num = ptr->xml_parser(path.c_str(), test);
-
     std::shared_ptr<ThreadProcessor> task[10];
     for(int i = 0; i < num; i++) {
         task[i] = make_shared<ThreadProcessor>(test[i]);
