@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<task_info_list>
+	<version>1.0.0</version>
+	<author>makou_yuan@163.com</author>
+	<build_time>2021-11-13 13:00:00</build_time>
+	<task_info>
+		<protocol identify="client">udp</protocol>
+		<src_ip>172.16.5.89</src_ip>
+		<src_port>55100</src_port>
+		<dst_ip>172.16.5.84</dst_ip>
+		<dst_port>61017</dst_port>
+		<interval unit="ms">50</interval>
+		<!-- 1.data_info=data 就是直接由测试程序负责造数据 -->
+		<!-- 2.data_info=file 测试程序直接读bin文件，意思就是文件中是数据流。len是一次性读多少数据出来 -->
+		<data_info file_path="../file/test.bin" len="1100">file</data_info>
+		<!-- <data_info len="1100">data</data_info> -->
+		<fun_property dt_src="self">send_recv</fun_property>
+		<!-- <fun_property>just_recv</fun_property> -->
+		<!-- <fun_property dt_src="self">send_recv</fun_property> -->
+		<!-- <fun_property dt_src="opposite">send_recv</fun_property> -->
+	</task_info>
+</task_info_list>

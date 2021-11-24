@@ -1,0 +1,13 @@
+*.swp
+.vscode
+install
+aarch64
+x86
+tmp
+temp
+*_commit_info.txt
+output.tar.gz
+output
+log
+build
+*.core*
