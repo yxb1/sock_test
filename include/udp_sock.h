@@ -33,6 +33,7 @@ private:
     struct sockaddr_in _addr;
     TaskInfo host_info;
     FileHandle *file;
+    bool ser_file;
 };
 
 #endif

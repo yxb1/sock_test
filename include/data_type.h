@@ -11,10 +11,10 @@
 #define _COMMON_DATA_TYPE_HEAD_
 
 struct SocketInfo {
-    uint32_t dst_port;
-    uint32_t src_port;
-    std::string dst_ip;
-    std::string src_ip;
+    uint32_t cli_port;
+    uint32_t ser_port;
+    std::string cli_ip;
+    std::string ser_ip;
     std::string protocol;
     std::string identify;
 };

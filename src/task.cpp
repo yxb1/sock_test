@@ -65,7 +65,6 @@ void ThreadProcessor::task_run(void *args) {
                 break;
             case 2:
                 sock->SocketRecv(NULL, 0);
-                pTask.pThis->task_sleep();
                 break;
             case 3:
                 sock->SocketSend(NULL, 0);

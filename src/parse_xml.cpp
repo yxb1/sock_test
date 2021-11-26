@@ -27,14 +27,14 @@ int ParseXML::xml_parser(const char *file, TaskInfo *task_info) {
                     }else{
                         task_info[index].socket_info.identify = "client";
                     }
-                }else if(!strcmp("src_ip", next->Value())) {
-                    task_info[index].socket_info.src_ip = next->GetText();
-                }else if(!strcmp("src_port", next->Value())) {
-                    task_info[index].socket_info.src_port = static_cast<uint32_t>(std::stoi(next->GetText()));
-                }else if(!strcmp("dst_ip", next->Value())) {
-                    task_info[index].socket_info.dst_ip = next->GetText();
-                }else if(!strcmp("dst_port", next->Value())) {
-                    task_info[index].socket_info.dst_port = static_cast<uint32_t>(std::stoi(next->GetText()));
+                }else if(!strcmp("ser_ip", next->Value())) {
+                    task_info[index].socket_info.ser_ip = next->GetText();
+                }else if(!strcmp("ser_port", next->Value())) {
+                    task_info[index].socket_info.ser_port = static_cast<uint32_t>(std::stoi(next->GetText()));
+                }else if(!strcmp("cli_ip", next->Value())) {
+                    task_info[index].socket_info.cli_ip = next->GetText();
+                }else if(!strcmp("cli_port", next->Value())) {
+                    task_info[index].socket_info.cli_port = static_cast<uint32_t>(std::stoi(next->GetText()));
                 }else if(!strcmp("interval", next->Value())) {
                     task_info[index].tx_rx_info.interval = static_cast<uint32_t>(std::stoi(next->GetText()));
                     task_info[index].tx_rx_info.unit = next->Attribute("unit");
@@ -74,10 +74,10 @@ int ParseXML::xml_parser(const char *file, TaskInfo *task_info) {
         std::cout << "----------------------------------" << std::endl;
         std::cout << "[---" << i << "---]" << "protocol: " << task_info[i].socket_info.protocol << std::endl;
         std::cout << "[---" << i << "---]" << "identify: " << task_info[i].socket_info.identify << std::endl;
-        std::cout << "[---" << i << "---]" << "src_ip: " << task_info[i].socket_info.src_ip << std::endl;
-        std::cout << "[---" << i << "---]" << "src_port: " << task_info[i].socket_info.src_port << std::endl;
-        std::cout << "[---" << i << "---]" << "dst_ip: " << task_info[i].socket_info.dst_ip << std::endl;
-        std::cout << "[---" << i << "---]" << "dst_port: " << task_info[i].socket_info.dst_port << std::endl;
+        std::cout << "[---" << i << "---]" << "ser_ip: " << task_info[i].socket_info.ser_ip << std::endl;
+        std::cout << "[---" << i << "---]" << "ser_port: " << task_info[i].socket_info.ser_port << std::endl;
+        std::cout << "[---" << i << "---]" << "cli_ip: " << task_info[i].socket_info.cli_ip << std::endl;
+        std::cout << "[---" << i << "---]" << "cli_port: " << task_info[i].socket_info.cli_port << std::endl;
         std::cout << "[---" << i << "---]" << "interval: " << task_info[i].tx_rx_info.interval << std::endl;
         std::cout << "[---" << i << "---]" << "unit: " << task_info[i].tx_rx_info.unit << std::endl; 
         std::cout << "[---" << i << "---]" << "data.single_len: " << task_info[i].tx_rx_info.data.single_len << std::endl;

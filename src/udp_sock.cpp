@@ -11,6 +11,15 @@ UdpSock::UdpSock(TaskInfo &info) {
     {
         file = NULL;
     }
+
+    if(!strcmp("file", host_info.tx_rx_info.data.from.c_str()) && !strcmp("send_recv", host_info.tx_rx_info.property.type.c_str()) && !strcmp("server", host_info.socket_info.identify.c_str()))
+    {
+        ser_file = true;
+    }
+    else
+    {
+        ser_file = false;
+    }
 }
 
 UdpSock::~UdpSock() {
@@ -29,22 +38,22 @@ void UdpSock::SocketInit() {
     memset(&bind_addr, 0, sizeof(bind_addr));
     if(!strcmp("server", host_info.socket_info.identify.c_str())) {
         bind_addr.sin_family = AF_INET;
-        bind_addr.sin_port = htons(host_info.socket_info.src_port);
-        bind_addr.sin_addr.s_addr = inet_addr(host_info.socket_info.src_ip.c_str());
+        bind_addr.sin_port = htons(host_info.socket_info.ser_port);
+        bind_addr.sin_addr.s_addr = inet_addr(host_info.socket_info.ser_ip.c_str());
 
         _addr.sin_family = AF_INET;
-        _addr.sin_port = htons(host_info.socket_info.dst_port);
-        _addr.sin_addr.s_addr = inet_addr(host_info.socket_info.dst_ip.c_str());
+        _addr.sin_port = htons(host_info.socket_info.cli_port);
+        _addr.sin_addr.s_addr = inet_addr(host_info.socket_info.cli_ip.c_str());
     }
     else
     {
         bind_addr.sin_family = AF_INET;
-        bind_addr.sin_port = htons(host_info.socket_info.dst_port);
-        bind_addr.sin_addr.s_addr = inet_addr(host_info.socket_info.dst_ip.c_str());
+        bind_addr.sin_port = htons(host_info.socket_info.cli_port);
+        bind_addr.sin_addr.s_addr = inet_addr(host_info.socket_info.cli_ip.c_str());
 
         _addr.sin_family = AF_INET;
-        _addr.sin_port = htons(host_info.socket_info.src_port);
-        _addr.sin_addr.s_addr = inet_addr(host_info.socket_info.src_ip.c_str());
+        _addr.sin_port = htons(host_info.socket_info.ser_port);
+        _addr.sin_addr.s_addr = inet_addr(host_info.socket_info.ser_ip.c_str());
     }
 
     int ret = bind(sock_fd, (sockaddr*)&bind_addr, sizeof(bind_addr));
@@ -127,7 +136,7 @@ int UdpSock::SocketRecv(char *ptr, int rr_len) {
             std::cout << "real_recv is " << r_len << std::endl;
         }
 
-        if(file) {
+        if(file && !ser_file) {
             file->WriteFile(r_buff, r_len);
         }
 
