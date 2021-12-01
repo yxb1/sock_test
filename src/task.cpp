@@ -34,10 +34,7 @@ void ThreadProcessor::task_run(void *args) {
         exit(-1);
     }
 
-    std::shared_ptr<UdpSock> sock = make_shared<UdpSock>(pTask.pThis->host_info);
-    sock->SocketInit();
     uint32_t type = 0;
-
     if(!strcmp("just_send", pTask.pThis->host_info.tx_rx_info.property.type.c_str())) {
         type = 1;
         std::cout << "Thread type is " << type << std::endl;
@@ -55,36 +52,77 @@ void ThreadProcessor::task_run(void *args) {
         std::cout << "Thread type is " << type << std::endl;
     }
 
+    int32_t rlen = 0;
     static char rbf[MAX_BUFF_LEN] = {0};
-    uint32_t rlen = 0;
-    while(true) {
-        switch(type) {
-            case 1:
-                sock->SocketSend(NULL, 0);
-                pTask.pThis->task_sleep();
-                break;
-            case 2:
-                sock->SocketRecv(NULL, 0);
-                break;
-            case 3:
-                sock->SocketSend(NULL, 0);
-                pTask.pThis->task_sleep();
-                sock->SocketRecv(NULL, 0);
-                break;
-            case 4:
-                if(!strcmp("opposite", pTask.pThis->host_info.tx_rx_info.property.in2out.c_str())) {
-                    sock->SocketRecv(rbf, rlen);
-                    sock->SocketSend(rbf, rlen);
-                }
-                else
-                {
-                    sock->SocketRecv(NULL, 0);
-                    memset(rbf, 'X', pTask.pThis->host_info.tx_rx_info.data.single_len);
-                    sock->SocketSend(rbf, pTask.pThis->host_info.tx_rx_info.data.single_len);
-                }
-                break;
-            default:
-                std::cout << "Unrecognized configuration!!!" << std::endl;
+    if(!strcmp("udp", pTask.pThis->host_info.socket_info.protocol.c_str())) {
+        std::shared_ptr<UdpSock> sock = make_shared<UdpSock>(pTask.pThis->host_info);
+        sock->SocketInit();
+
+        while(true) {
+            switch(type) {
+                case 1:
+                    sock->SocketSend(NULL, 0);
+                    pTask.pThis->task_sleep();
+                    break;
+                case 2:
+                    sock->SocketRecv(NULL, rlen);
+                    break;
+                case 3:
+                    sock->SocketSend(NULL, 0);
+                    pTask.pThis->task_sleep();
+                    sock->SocketRecv(NULL, rlen);
+                    break;
+                case 4:
+                    if(!strcmp("opposite", pTask.pThis->host_info.tx_rx_info.property.in2out.c_str())) {
+                        sock->SocketRecv(rbf, rlen);
+                        sock->SocketSend(rbf, rlen);
+                    }
+                    else
+                    {
+                        sock->SocketRecv(NULL, rlen);
+                        memset(rbf, 'D', pTask.pThis->host_info.tx_rx_info.data.single_len);
+                        sock->SocketSend(rbf, pTask.pThis->host_info.tx_rx_info.data.single_len);
+                    }
+                    break;
+                default:
+                    std::cout << "Unrecognized configuration!!!" << std::endl;
+            }
+        }
+    }
+    else
+    {
+        std::shared_ptr<TcpSock> sock = make_shared<TcpSock>(pTask.pThis->host_info);
+        sock->SocketInit();
+
+        while(true) {
+            switch(type) {
+                case 1:
+                    sock->SocketSend(NULL, 0);
+                    pTask.pThis->task_sleep();
+                    break;
+                case 2:
+                    sock->SocketRecv(NULL, rlen);
+                    break;
+                case 3:
+                    sock->SocketSend(NULL, 0);
+                    pTask.pThis->task_sleep();
+                    sock->SocketRecv(NULL, rlen);
+                    break;
+                case 4:
+                    if(!strcmp("opposite", pTask.pThis->host_info.tx_rx_info.property.in2out.c_str())) {
+                        sock->SocketRecv(rbf, rlen);
+                        sock->SocketSend(rbf, rlen);
+                    }
+                    else
+                    {
+                        sock->SocketRecv(NULL, rlen);
+                        memset(rbf, 'C', pTask.pThis->host_info.tx_rx_info.data.single_len);
+                        sock->SocketSend(rbf, pTask.pThis->host_info.tx_rx_info.data.single_len);
+                    }
+                    break;
+                default:
+                    std::cout << "Unrecognized configuration!!!" << std::endl;
+            }
         }
     }
 }

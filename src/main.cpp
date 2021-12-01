@@ -37,6 +37,7 @@ int main(int argc, const char *argv[]) {
     for(int i = 0; i < num; i++) {
         task[i] = make_shared<ThreadProcessor>(test[i]);
         task[i]->task_start();
+        usleep(50*1000);
     }
     while(true) {
         sleep(10);

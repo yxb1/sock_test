@@ -27,6 +27,7 @@ void FileHandle::FileReadInit() {
         file_read.open(host_info.tx_rx_info.data.path.c_str(), ios::in | ios::binary);
         if (!file_read.is_open()) {
             std::cout << "Open file fail when read." << std::endl;
+            exit(-1);
             return;
         }
         file_read.clear();
@@ -43,6 +44,7 @@ void FileHandle::FileWriteInit() {
         file_write.open(host_info.tx_rx_info.data.path.c_str(), ios::out | ios::binary);
         if (!file_write.is_open()) {
             std::cout << "Open file fail when write." << std::endl;
+            exit(-1);
             return;
         }
         file_write.clear();

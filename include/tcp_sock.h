@@ -12,24 +12,24 @@
 #include <unistd.h>
 #include <stdio.h>
 
-#ifndef _UDP_SOCK_HEAD_
-#define _UDP_SOCK_HEAD_
+#ifndef _TCP_SOCKERT_COMM_HEAD_
+#define _TCP_SOCKERT_COMM_HEAD_
 
 #include "data_type.h"
 #include "file_handle.h"
 
 #define MAX_BUFF_LEN (100*1024)
 
-class UdpSock {
+class TcpSock {
 public:
-    UdpSock(TaskInfo &info);
-    ~UdpSock();
+    TcpSock(TaskInfo &info);
+    ~TcpSock();
     void SocketInit();
     void SocketSend(char *ptr, int ss_len);
     int SocketRecv(char *ptr, int &rr_len);
 
 private:
-    int sock_fd;
+    int tcp_fd;
     struct sockaddr_in _addr;
     TaskInfo host_info;
     FileHandle *file;

@@ -8,6 +8,7 @@
 
 #include "data_type.h"
 #include "udp_sock.h"
+#include "tcp_sock.h"
 
 class ThreadProcessor {
 public:
