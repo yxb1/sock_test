@@ -1,6 +1,6 @@
 # sock_test
-A TCP / UDP program supporting multiple test scenarios
-The current communication protocol only supports UDP. TCP will be supported later.
+A TCP / UDP program supporting multiple test scenarios.
+The current communication protocol supports UDP and TCP. A task_info element in xml will be a thread, please attention.
 
 ## How to compile
 Firstly, you need download zip source code or git clone source code.After comple, you can find binary file in output/bin
@@ -17,7 +17,7 @@ make
 ```
 ## Test Result
 You can view results of test and a lots of xmls on https://mubu.com/doc/4B4YZ6cP-rg
- 
+
 ## How to run
 You have to pass the path of an XML file to the program. There are many configure parameters in the xml file. Through this file, we can flexibly configure some parameters of the program, such as src_ip, src_port, dst_port, dst_ip, interval of send in s/ms/us.
 > ./sock_test server.xml
